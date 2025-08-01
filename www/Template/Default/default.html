@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="dashboard" class="content-section active">
+            <h2>仪表盘</h2>
+            <div class="dashboard-summary">
+                <div class="widget" id="tuandui">
+                    <h3>团队工作总进程</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                    <p id="tuandui-info"></p>
+                </div>
+            </div>
+            <div class="dashboard-widgets" id="geren">
+                <div class="widget">
+                    <h3>个人工作完成度</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                    <p id="geren-info">个人完成度: 0% (共0项任务,已完成0项)</p>
+                </div>
+                <div class="widget">
+                    <h3>待办事项</h3>
+                    <ul class="todo-list">
+                        
+                    </ul>
+                </div>
+                <div class="widget">
+                    <h3>即将到期</h3>
+                    <p id="lastday">周计划提交截止：周六 23:59</p>
+                    <div class="submitted-staff">
+                        <h4 id="tuandui-status">已提交 (0/0)</h4>
+                        <ul class="staff-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="team-members-progress">
+                  <h3>团队成员工作进度</h3>
+                  <div class="member-progress-list">
+                      
+                  </div>
+              </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+    {pt:type=pagehead template=<script src="%templatepath%javascript/script.js?%random%"></script>}
+    <script>
+// 周总结提醒功能
+function checkAndShowReminder() {
+    const now = new Date();
+    const day = now.getDay(); // 6表示周六
+    const hours = now.getHours();
+    
+    // 检查是否为周六上午8点到12点之间
+    if (day === 5 && hours >= 8 && hours < 17) {
+        layui.use('layer', function() {
+            const layer = layui.layer;
+            layer.open({
+                title: '周总结提醒',
+                content: '请记得添加本周的周总结！',
+                btn: ['去填写', '稍后提醒'],
+                yes: function(index) {
+                    // 跳转到周总结页面
+                    window.location.href = '/c/weekly-summary';
+                    layer.close(index);
+                },
+                btn2: function(index) {
+                    // 1小时后再次检查
+                    setTimeout(checkAndShowReminder, 3600000);
+                    layer.close(index);
+                },
+                cancel: function() {
+                    // 点击右上角关闭按钮时，1小时后再次检查
+                    setTimeout(checkAndShowReminder, 3600000);
+                }
+            });
+        });
+    } else {
+        // 不是提醒时间，24小时后再次检查
+        setTimeout(checkAndShowReminder, 86400000);
+    }
+}
+
+// 页面加载完成后开始检查
+$(document).ready(checkAndShowReminder);
+    </script>
+</body>
+</html>

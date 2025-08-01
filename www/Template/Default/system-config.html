@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link href="/Javascript/layui/2.9.7/css/layui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="system-config" class="content-section active">
+            <h2>系统配置</h2>
+            <div class="config-content">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">系统名称</label>
+                        <div class="layui-input-block">
+                            {pt:type=config flag=webtitle template=<input type="text" id="systemtitle" name="systemName" value="%content%" class="layui-input">}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">周计划提交截止日</label>
+                        <div class="layui-input-inline" style="width:30px;">
+                          <h3 style="text-align:right; line-height:35px;">周</h3>  
+                        </div>
+
+                        <div class="layui-input-inline">
+                            {pt:type=config flag=endpostday template=<input type="text" id="endpostday" name="endpostday" value="%content%" class="layui-input">}
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据保留时间</label>
+                        <div class="layui-input-block">
+                            {pt:type=config flag=savedays template=<input type="number" id="savedays" name="dataRetention" value="%content%" class="layui-input" style="width: 120px; float: left; margin-right: 5px;" min="1" max="24">}
+                            <div class="layui-form-mid layui-word-aux">个月</div>
+                        </div>
+                    </div>
+                   
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">&nbsp;</label>
+                        <div class="layui-input-inline">
+                            <button class="layui-btn" id="save_btn" lay-filter="saveConfig">保存配置</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>                           
+                        </div>
+                        <div class="layui-input-inline">
+                            <div id="loadpan"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+    {pt:type=pagehead template=<script src="%templatepath%javascript/systemconfig.js?%random%"></script>}
+    <script>
+        
+    </script>
+</body>
+</html>

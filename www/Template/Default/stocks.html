@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="profile" class="content-section active">
+            <h2>库存数据</h2>
+            <div>...</div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+    {pt:type=pagehead template=<script src="%templatepath%javascript/profile.js?%random%"></script>}
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="performance" class="content-section active">
+            <h2>绩效评分</h2>
+            <div class="performance-tabs">
+                <button class="tab-btn active" data-tab="personal">个人绩效</button>
+                <button class="tab-btn" data-tab="team">团队评分</button>
+            </div>
+            <div class="tab-content active" id="personal-performance">
+                <h3>个人绩效评分历史</h3>
+                <div class="performance-history" id="performance-history">
+
+                    <div class="performance-item">
+                        <div class="period">2023-W44</div>
+                        <div class="score">90分</div>
+                        <div class="rank">团队排名: 2/8</div>
+                        <button class="btn view-details">查看详情</button>
+                    </div>
+                    <div class="performance-item">
+                        <div class="period">2023-W43</div>
+                        <div class="score">85分</div>
+                        <div class="rank">团队排名: 3/8</div>
+                        <button class="btn view-details">查看详情</button>
+                    </div>
+                    <div class="performance-item">
+                        <div class="period">2023-W42</div>
+                        <div class="score">92分</div>
+                        <div class="rank">团队排名: 1/8</div>
+                        <button class="btn view-details">查看详情</button>
+                    </div>
+
+
+
+                </div>
+                <div class="performance-chart">
+                    <h3>绩效趋势</h3>
+
+                    <div class="chart-container" id="performance-trend-chart">
+                        <!-- 绩效趋势图表将通过JavaScript渲染 -->
+                        <div class="chart-placeholder">绩效趋势图表</div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="tab-content" id="team-performance">
+                <div class="performance-view">
+                    <div class="employee-list">
+                        <h3>团队成员</h3>
+                        <ul id="User_list">
+                            
+                        </ul>
+                    </div>
+
+                    <div>
+                    <div class="score-form" id="mainperformance">
+                        <div class="loadpan"><img src="/images/loading.gif" style="max-height:50px; position:absolute;" /></div>
+                        <h3>期数 (2023-W44)</h3>
+                        <div class="form-group">
+                            <label for="score">评分 (1-100)</label>
+                        </div>                        
+                    </div>
+                    <div class="score-form" id="performancelist">                       
+                        <div class="form-group">
+                           <ul>
+                               <li><label for="score">评分 (1-100)</label></li>
+                               <li><label for="score">评分 (1-100)</label></li>
+                               <li><label for="score">评分 (1-100)</label></li>
+                               <li><label for="score">评分 (1-100)</label></li>
+
+                           </ul>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+       {pt:type=pagehead template=<script src="%templatepath%javascript/performance.js?%random%"></script>}
+</body>
+</html>

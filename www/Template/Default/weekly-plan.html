@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="weekly-plan" class="content-section active">
+            <h2>周工作计划</h2>
+            <div class="plan-history">
+                <h3>历史计划</h3>
+                <div class="history-list" id="plan-history-list">
+
+                </div>
+            </div>
+
+            <div class="pan_arr"></div>
+
+            <div class="plan-form hiddendiv">
+                <h3>创建新计划</h3>
+                <div class="form-group">
+                    <label for="plan-week">计划周期</label>
+                    <input type="week" id="plan-week">
+
+                </div>
+                <div class="form-group">
+                    <label>工作计划内容</label>
+                    <div id="plan-items-container">
+                        <div class="plan-item">
+                            <input type="text" class="plan-item-input" placeholder="输入任务内容...">
+                            <select id="n_week0" class="plan-item-select"></select>
+                            <button type="button" class="btn remove-item">删除</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-item" class="btn secondary">添加条目</button>
+                </div>
+                <div class="form-actions"><div class="week_load"></div>
+                    <button id="save-plan" class="btn primary">保存计划</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+    {pt:type=pagehead template=<script src="%templatepath%javascript/weekplan.js?%random%"></script>}
+</body>
+</html>

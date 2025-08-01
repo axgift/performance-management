@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="performance" class="content-section active">
+            <h2>团队报告<input id="plan-week" type="hidden" /></h2>
+            <div class="performance-tabs">
+                <button class="tab-btn active" data-tab="team">团队报告</button>
+            </div>
+           
+            <div class="tab-content active" id="team-performance">
+                <div class="performance-view">
+                    <div class="employee-list">
+                        <h3>团队成员</h3>
+                        <ul id="User_list">
+                            
+                        </ul>
+                    </div>
+                    <div class="score-form" id="mainperformance">
+                        <div class="loadpan"><img src="/images/loading.gif" style="max-height:50px; position:absolute;" /></div>
+                        <h3>期数 (
+<select id="weeknumlist" style="width:180px; padding:2px; margin:0px 5px;">
+</select>
+<input id="userID" type="hidden" />                            )</h3>
+                        <div class="form-group" id="printdiv">
+
+                            <table class="summary-list-pan" style="background-color:white;">
+                                <thead>
+                                    <tr>
+                                        <th class="wauto">工作内容</th>
+                                        <th class="w80">评分</th>
+                                        <th class="w200">主管评价</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="preview-list">
+                                    <tr>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                        <td>dd</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <ul class="user_report" style="background-color:white;">
+                                <li><strong>周销售额</strong><span id="Weeklysales">0</span></li>
+                                <li><strong>周广告支出</strong><span id="Weeklyadvertisingexpenditure">0</span></li>
+                                <li><strong>订单数量</strong><span id="Numberoforders">0</span></li>
+                                <li><strong>售出商品数</strong><span id="Numberofitemssold">0</span></li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="score" id="totalscore">评分:0</label>
+                        </div>
+                        <div class="form-actions">
+                            <button id="save-score" class="btn primary">打印页面</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+       {pt:type=pagehead template=<script src="%templatepath%javascript/reporyperformance.js?%random%"></script>}
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="employee-management" class="content-section active">
+            <div class="section-header">
+                <h2>员工管理</h2>
+                <button class="layui-btn layui-btn-primary" id="add-employee">添加员工</button>
+            </div>
+
+            <div class="table-container">
+                <table class="layui-hide" id="employee-table" lay-filter="employee-table"></table>
+            </div>
+        </section>
+    </main>
+
+    <!-- 添加/编辑员工弹窗 -->
+    <div id="employee-modal" style="display: none;">
+        <form class="layui-form" lay-filter="employee-form" id="employee-form">
+        <div class="layui-form new_staff_panel" style="margin:10px;">
+            <input id="id" name="id" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">登陆名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="loginname" name="loginname" placeholder="请输入登陆名" value="" class="layui-input">
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="loginpassword" id="loginpassword" lay-verify="required" placeholder="请输入密码" class="layui-input">
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" lay-verify="required" id="username" placeholder="请输入姓名" class="layui-input">
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">部门</label>
+                <div class="layui-input-inline">
+                    <select name="department" lay-verify="required" id="department">
+                        <option value="1">销售一部</option>
+                        <option value="2">销售二部</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">级别</label>
+                <div class="layui-input-inline">
+                    <select name="leveltype" lay-verify="required" id="leveltype">
+                        <option value="0">主管</option>
+                        <option value="1">员工</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="job" id="job" lay-verify="required" placeholder="请输入职位" class="layui-input">
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" id="email" lay-verify="email" placeholder="请输入邮箱" class="layui-input">
+                </div>
+                <div class="layui-input-inline"><span class="red_small_flag">[*]</span></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="激活" checked>
+                    <input type="radio" name="status" value="0" title="未激活">
+                </div>
+            </div>
+        </div>
+       </form>
+    </div>
+
+     <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+    <script type="text/html" id="employee-toolbar">
+        <a class="layui-btn layui-btn-xs layui-btn-edit" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+    </script>
+
+    <script>
+        layui.use(['table', 'form', 'layer','jquery'], function() {
+            const table = layui.table;
+            const form = layui.form;
+            const layer = layui.layer;
+            $ = layui.jquery;
+
+            // 渲染员工表格
+            table.render({
+                elem: '#employee-table',
+                height: 'full-200',
+                url: '/AjaxFun/post.ashx?r=getstaff', // 实际应用中会配置后端接口
+                page: true,
+                limit:10,
+                cols: [[
+                    {field: 'id', title: 'ID', width: 80, fixed: 'left'},
+                    {field: 'UserNmae', title: '姓名', width: 120},
+                    {field: 'loginPass', title: '密码', width: 120,hide:true},
+                    {field: 'leveltype', title: '用户级别', width: 120, templet: function(d) {
+                        return d.leveltype === '1' ? '<span class="layui-badge layui-bg-green">员工</span>' : '<span class="layui-badge">组长</span>';
+                    }},
+                    {field: 'DepartMentName', title: '部门', width: 150},
+                    {field: 'DepartMentID', title: '部门', width: 150,hide:true},
+                    {field: 'Job', title: '职位', width: 150},
+                    {field: 'email', title: '邮箱', minWidth: 200},
+                    {field: 'Status', title: '状态', width: 100, templet: function(d) {
+                        return d.Status === '1' ? '<span class="layui-badge layui-bg-green">正常</span>' : '<span class="layui-badge">未激活</span>';
+                    }},
+                    {title: '操作', width: 180, fixed: 'right', align:'center', toolbar: '#employee-toolbar'}
+                ]]
+                //,
+                //// 模拟数据
+                //data: [
+                //    {id: 1, employeeId: 'EMP001', name: '张三', department: '技术部', position: '前端开发工程师', email: 'zhangsan@example.com', status: 'active'},
+                //    {id: 2, employeeId: 'EMP002', name: '李四', department: '技术部', position: '后端开发工程师', email: 'lisi@example.com', status: 'active'},
+                //    {id: 3, employeeId: 'EMP003', name: '王五', department: '产品部', position: '产品经理', email: 'wangwu@example.com', status: 'active'},
+                //    {id: 4, employeeId: 'EMP004', name: '赵六', department: '市场部', position: '市场专员', email: 'zhaoliu@example.com', status: 'inactive'}
+                //]
+            });
+
+           
+
+            // 添加员工按钮点击事件
+            $('#add-employee').on('click', function() {
+                openEmployeeModal();
+            });
+
+            // 监听表格工具事件
+            table.on('tool(employee-table)', function(obj) {
+                const data = obj.data;
+                if (obj.event === 'edit') {
+                    openEmployeeModal(data);
+                } else if (obj.event === 'del') {
+                    layer.confirm('确定要删除该员工吗？', function(index) {
+
+                        
+                        $.getJSON("/AjaxFun/post.ashx?r=deleteuser&id=" + data.id + "&rs=" + Math.floor(Math.random() * 1000), function (data) {
+                            
+                            if (unescape(data.code) == "1") {
+                                obj.del();
+                                layer.close(index);
+                                layer.msg('员工已删除', {icon: 1});
+                                table.reload('employee-table');
+                            }
+                        })
+
+
+
+
+                       
+                    });
+                }
+            });
+
+            // 打开员工编辑弹窗
+            function openEmployeeModal(data) {
+               
+                const title = data ? '编辑员工' : '添加员工';
+
+                form.val('employee-form', {});
+
+                layer.open({
+                    type: 1,
+                    title: title,
+                    area: ['550px', '480px'],
+                    content: $('#employee-modal').clone().html(),
+                    success: function(layero) {
+                        form.render();
+                        // 绑定表单提交事件
+                        // 使用one()确保事件只绑定一次
+                        const modalContent = layero.find('.layui-layer-content');
+
+                        if (data) {
+
+                            modalContent.find("#loginname").val(data.LoginName);
+                            modalContent.find("#id").val(data.id);
+                            modalContent.find("#loginpassword").val(data.LoginName);
+
+                            // 部门下拉框赋值示例
+                            modalContent.find("#department").val(data.DepartMentID);
+                            modalContent.find("#leveltype").val(data.leveltype);
+                            // 其他字段赋值...
+                            modalContent.find("#username").val(data.UserNmae); // 注意表格字段是UserNmae(可能拼写错误)
+                            modalContent.find("#email").val(data.Email);
+                            modalContent.find("#job").val(data.Job);
+
+                            if(data.Status=="1")
+                                modalContent.find('input[name="status"][value="1"]').prop('checked', true);
+                            else
+                                modalContent.find('input[name="status"][value="0"]').prop('checked', true);
+                
+                            // 重新渲染表单元素
+                            form.render(null, modalContent.find('form').attr('lay-filter'));
+
+                        }
+
+
+
+                       
+                    },
+                    btn:["更新","取消"],
+                    yes: function(index, layero) {
+                        // "更新"按钮点击事件
+                        // 获取表单数据
+                        var formData = form.val('employee-form'); // 假设表单的lay-filter为employee-form
+
+                        // 简单的表单验证示例
+                        if (!formData.loginname || !formData.loginpassword|| !formData.username|| !formData.job|| !formData.email) {
+                            layer.msg('请填写{*}必要字段', {icon: 2});
+                            return false; // 阻止弹窗关闭
+                        }
+
+                         const updateflag = data ? "updatestaff" : "addnewstaff";
+
+
+                        // 发送AJAX请求到后端更新数据
+                        $.ajax({
+                            url: '/AjaxFun/post.ashx', // 后端更新接口地址
+                            type: 'POST',
+                            data: {r:updateflag,postdata:JSON.stringify(formData)},
+                            dataType: 'json',
+                            success: function(res) {
+
+                                if (unescape(res.code) === "1") {
+                                    layer.msg('更新成功', {icon: 1});
+                                    layer.close(index); // 关闭弹窗
+                                    // 可以在这里刷新数据表格
+                                    table.reload('employee-table');
+                                } else {
+                                    layer.msg(res.msg || '更新失败', {icon: 2});
+                                }
+                            },
+                            error: function() {
+                                layer.msg('网络错误，请稍后重试', {icon: 2});
+                            }
+                        });
+        
+                        return false; // 阻止弹窗关闭（等待AJAX结果后手动关闭）
+                    },
+                    btn2: function(index) {
+                        // "取消"按钮点击事件，默认关闭弹窗
+                        layer.close(index);
+                    }
+
+                });
+            }
+
+
+
+            form.render('select');
+        });
+    </script>
+</body>
+</html>

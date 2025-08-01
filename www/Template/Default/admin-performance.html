@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {pt:type=pagehead template=<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘 - 团队工作计划与总结系统</title>
+    <link rel="stylesheet" href="%templatepath%CSS/styles.css?%random%">
+    <script src="/Javascript/jquery-3.6.0.min.js"></script>
+    <link href="/Javascript/layui/v2.9.7/css/layui.css" rel="stylesheet" />
+    <script src="/Javascript/layui/v2.9.7/layui.js"></script>
+
+</head>}
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                {pt:type=config flag=webtitle template=<h1 class="system-logo">%content%</h1>}
+            </div>
+            {pt:type=mainmenu template=<nav>
+                  %content%
+            </nav>}
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="performance" class="content-section active">
+            <h2>绩效评分<input id="plan-week" type="hidden" /></h2>
+            <div class="performance-tabs">
+                <button class="tab-btn active" data-tab="team">团队评分</button>
+            </div>
+           
+            <div class="tab-content active" id="team-performance">
+                <div class="performance-view">
+                    <div class="employee-list">
+                        <h3>团队成员</h3>
+                        <ul id="User_list">
+                            
+                        </ul>
+                    </div>
+                    <div class="score-form" id="mainperformance">
+                        <div class="loadpan"><img src="/images/loading.gif" style="max-height:50px; position:absolute;" /></div>
+                        <h3>期数 (.)</h3>
+                        <div class="form-group">
+                            <ul class="preview-list">
+                                
+                            </ul>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="score" id="totalscore"></label>
+                        </div>
+                        <div class="form-actions">
+                            <button id="save-score" class="btn primary">保存评分</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            {pt:type=config flag=webtitle template=<p>&copy; 2026 %content%</p>}
+        </div>
+    </footer>
+
+       {pt:type=pagehead template=<script src="%templatepath%javascript/adminperformance.js?%random%"></script>}
+</body>
+</html>
